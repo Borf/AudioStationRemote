@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using json;
+using Newtonsoft.Json;
 
 namespace AudioStationRemote
 {
@@ -17,8 +17,9 @@ namespace AudioStationRemote
 
 		public async void login(string username, string password)
 		{
-			json.Value ret = await callApi("GET", "auth.cgi", "?api=SYNO.API.Auth&version=2&method=login&account="+username+"&passwd="+Encoding.UTF8.GetString(Convert.FromBase64String(password))+"&Session=AudioStation&format=sid");
-			sid = ret["data"]["sid"].asString();
+			var ret = await callApi("GET", "auth.cgi", "?api=SYNO.API.Auth&version=2&method=login&account="+username+"&passwd="+Encoding.UTF8.GetString(Convert.FromBase64String(password))+"&Session=AudioStation&format=sid");
+			sid = ret.data.sid;
+			Console.WriteLine("Session ID: " + sid);
 		}
 
 
@@ -27,7 +28,7 @@ namespace AudioStationRemote
 
 
 
-		private async Task<json.Value> callApi(string method, string api, string parameters, json.Value postData = null)
+		private async Task<dynamic> callApi(string method, string api, string parameters, json.Value postData = null)
 		{
 			HttpClient client = new HttpClient();
 			client.BaseAddress = new Uri("http://192.168.2.205:5000/webapi/" + api);
@@ -47,8 +48,9 @@ namespace AudioStationRemote
 			if (response.IsSuccessStatusCode)
 			{
 				var data = Encoding.UTF8.GetString(await response.Content.ReadAsByteArrayAsync());
-			//	Console.WriteLine("API OK: " + data);
-				return json.Value.fromString(data);
+				//	Console.WriteLine("API OK: " + data);
+				//return json.Value.fromString(data);
+				return JsonConvert.DeserializeObject<dynamic>(data);
 			}
 			else
 			{
@@ -88,7 +90,7 @@ namespace AudioStationRemote
 		}
 
 
-		public async Task<Value> getDirectory(string id = "")
+		public async Task<dynamic> getDirectory(string id = "")
 		{
 			json.Value postData = new json.ObjectValue();
 			postData["_sid"] = sid;
@@ -102,12 +104,17 @@ namespace AudioStationRemote
 			postData["version"] = "2";
 			if (id != "")
 				postData["id"] = id;
-			json.Value v = await callApi("POST", "AudioStation/folder.cgi", "?_sid=" + sid, postData);
+			var v = await callApi("POST", "AudioStation/folder.cgi", "?_sid=" + sid, postData);
 			return v;
 
 		}
 
-		public async Task<Value> getStatus()
+		public async Task<dynamic> getplaylist()
+		{
+			return await callApi("GET", "AudioStation/remote_player.cgi", "?_sid=" + sid + "&api=SYNO.AudioStation.RemotePlayer&method=getplaylist&id=uuid%3Accb075c1-6775-c1b9-da7c-c10967b96ed7&additional=song_tag%2Csong_audio&version=2&offset=0&limit=8192");
+		}
+
+		public async Task<dynamic> getStatus()
 		{
 			return await callApi("GET", "AudioStation/remote_player_status.cgi", "?_sid="+sid+"&api=SYNO.AudioStation.RemotePlayerStatus&method=getstatus&id=uuid%3Accb075c1-6775-c1b9-da7c-c10967b96ed7&additional=song_tag%2Csong_audio%2Csubplayer_volume&version=1");
 

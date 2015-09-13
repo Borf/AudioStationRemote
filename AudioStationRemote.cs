@@ -21,9 +21,10 @@ namespace AudioStationRemote
 		private ToolStripTraceBarItem playbackSlider;
 		bool mouseDownVolume = false;
 
-		json.Value config;
+		dynamic config;
 
 		string playState;
+		private PlayList queuePlayList;
 
 		public AudioStationRemote()
         {
@@ -75,15 +76,50 @@ namespace AudioStationRemote
 
 			Task.Run(async () =>
 			{
-				json.Value rootDir = await audioStation.getDirectory();
-				for (int i = 0; i < rootDir["data"]["items"].count(); i++)
+				var rootDir = await audioStation.getDirectory();
+                for (int i = 0; i < rootDir.data.items.Count; i++)
 				{
-					TreeNode n = new TreeNode(rootDir["data"]["items"][i]["title"]) { Tag = rootDir["data"]["items"][i]["id"].asString() };
+                    TreeNode n = new TreeNode(rootDir.data.items[i].title.Value) { Tag = rootDir.data.items[i].id.Value };
 					n.Nodes.Add(new TreeNode("...") { Tag = "dummy" });
 					Invoke(() => treeView1.Nodes.Add(n));
                 }
 			});
 
+
+			Task.Run(async () =>
+			{
+				var queueData = await audioStation.getplaylist();
+
+				PlayListItem playlistItem = new PlayListItem();
+				List<ListViewItem> rows = new List<ListViewItem>();
+				queuePlayList = new PlayList(null, null);
+				queuePlayList.listview = queue;
+
+				for (int i = 0; i < queueData.data.songs.Count; i++)
+				{
+					if (i > 0)
+					{
+						rows.Add(playlistItem.listViewItem());
+						queuePlayList.items.Add(playlistItem);
+						playlistItem = new PlayListItem();
+					}
+					playlistItem.Set(queueData.data.songs[i]);
+
+
+				}
+				rows.Add(playlistItem.listViewItem());
+				queuePlayList.items.Add(playlistItem);
+				Invoke(() =>
+				{
+					queue.Items.Clear();
+					queue.Items.AddRange(rows.ToArray());
+					queue.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+				});
+
+
+
+			});
+			
 
 
 		}
@@ -113,7 +149,7 @@ namespace AudioStationRemote
 
 		private async void pingTimer_Tick(object sender, EventArgs e)
 		{
-			json.Value status = await audioStation.getStatus();
+			var status = await audioStation.getStatus();
 
 			this.Text = status["data"]["song"]["title"];
 			playState = status["data"]["state"];

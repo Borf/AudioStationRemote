@@ -58,9 +58,6 @@
 			this.afterThisSongsamePriorityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.afterThisSonghigherPriorityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.afterThisSonghigherPriorityIncrementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.addToCurrentPlaylistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.createPlaylistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.updateThisFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.treeList = new System.Windows.Forms.ImageList(this.components);
 			this.tabAlbumList = new System.Windows.Forms.TabPage();
 			this.tabAlbumTags = new System.Windows.Forms.TabPage();
@@ -309,17 +306,14 @@
 			// 
 			this.libraryMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.playToolStripMenuItem1,
-            this.queueToolStripMenuItem,
-            this.addToCurrentPlaylistToolStripMenuItem,
-            this.createPlaylistToolStripMenuItem,
-            this.updateThisFolderToolStripMenuItem});
+            this.queueToolStripMenuItem});
 			this.libraryMenu.Name = "libraryMenu";
-			this.libraryMenu.Size = new System.Drawing.Size(192, 114);
+			this.libraryMenu.Size = new System.Drawing.Size(110, 48);
 			// 
 			// playToolStripMenuItem1
 			// 
 			this.playToolStripMenuItem1.Name = "playToolStripMenuItem1";
-			this.playToolStripMenuItem1.Size = new System.Drawing.Size(191, 22);
+			this.playToolStripMenuItem1.Size = new System.Drawing.Size(109, 22);
 			this.playToolStripMenuItem1.Text = "Play";
 			// 
 			// queueToolStripMenuItem
@@ -329,7 +323,7 @@
             this.afterThisSonghigherPriorityToolStripMenuItem,
             this.afterThisSonghigherPriorityIncrementToolStripMenuItem});
 			this.queueToolStripMenuItem.Name = "queueToolStripMenuItem";
-			this.queueToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+			this.queueToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
 			this.queueToolStripMenuItem.Text = "Queue";
 			// 
 			// afterThisSongsamePriorityToolStripMenuItem
@@ -349,24 +343,6 @@
 			this.afterThisSonghigherPriorityIncrementToolStripMenuItem.Name = "afterThisSonghigherPriorityIncrementToolStripMenuItem";
 			this.afterThisSonghigherPriorityIncrementToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
 			this.afterThisSonghigherPriorityIncrementToolStripMenuItem.Text = "After this song (higher priority, increment)";
-			// 
-			// addToCurrentPlaylistToolStripMenuItem
-			// 
-			this.addToCurrentPlaylistToolStripMenuItem.Name = "addToCurrentPlaylistToolStripMenuItem";
-			this.addToCurrentPlaylistToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-			this.addToCurrentPlaylistToolStripMenuItem.Text = "Add to current playlist";
-			// 
-			// createPlaylistToolStripMenuItem
-			// 
-			this.createPlaylistToolStripMenuItem.Name = "createPlaylistToolStripMenuItem";
-			this.createPlaylistToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-			this.createPlaylistToolStripMenuItem.Text = "Create Playlist";
-			// 
-			// updateThisFolderToolStripMenuItem
-			// 
-			this.updateThisFolderToolStripMenuItem.Name = "updateThisFolderToolStripMenuItem";
-			this.updateThisFolderToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-			this.updateThisFolderToolStripMenuItem.Text = "Update this folder";
 			// 
 			// treeList
 			// 
@@ -598,8 +574,6 @@
 		private System.Windows.Forms.ToolStripMenuItem afterThisSongsamePriorityToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem afterThisSonghigherPriorityToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem afterThisSonghigherPriorityIncrementToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem addToCurrentPlaylistToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem createPlaylistToolStripMenuItem;
 		private System.Windows.Forms.ContextMenuStrip tabMenu;
 		private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
@@ -609,7 +583,6 @@
 		private System.Windows.Forms.ToolStripMenuItem playToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem enqueueToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem1;
-		private System.Windows.Forms.ToolStripMenuItem updateThisFolderToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem playToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem previousToolStripMenuItem;
