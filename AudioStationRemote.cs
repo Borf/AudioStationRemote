@@ -151,19 +151,19 @@ namespace AudioStationRemote
 		{
 			var status = await audioStation.getStatus();
 
-			this.Text = status["data"]["song"]["title"];
-			playState = status["data"]["state"];
+			this.Text = status.data.song.title;
+			playState = status.data.state;
 
 			if (playState == "paused")
 				this.Text += " [ PAUSED ]";
 
 			if(!mouseDownVolume)
-				volumeSlider.tb.Value = status["data"]["volume"];
+				volumeSlider.tb.Value = status.data.volume;
 
 
-			playbackSlider.tb.Maximum = status["data"]["song"]["additional"]["song_audio"]["duration"];
-			if(status["data"]["position"] < playbackSlider.tb.Maximum)
-				playbackSlider.tb.Value = status["data"]["position"];
+			playbackSlider.tb.Maximum = status.data.song.additional.song_audio.duration;
+			if(status.data.position < playbackSlider.tb.Maximum)
+				playbackSlider.tb.Value = status.data.position;
 
 			//Console.WriteLine(status.ToString());
 
@@ -179,16 +179,16 @@ namespace AudioStationRemote
 			TreeNode eventNode = e.Node;
 			Task.Run(() =>
 			{
-				json.Value dirContents = audioStation.getDirectory(e.Node.Tag.ToString()).Result;
+				var dirContents = audioStation.getDirectory(e.Node.Tag.ToString()).Result;
 				Invoke(() => eventNode.Nodes.Clear());
-				for (int i = 0; i < dirContents["data"]["items"].count(); i++)
+				for (int i = 0; i < dirContents.data.items.Count; i++)
 				{
-					TreeNode n = new TreeNode(dirContents["data"]["items"][i]["title"]) { Tag = dirContents["data"]["items"][i]["id"].asString() };
-					if (dirContents["data"]["items"][i]["type"] == "folder")
+					TreeNode n = new TreeNode(dirContents.data.items[i].title.Value) { Tag = dirContents.data.items[i].id.Value };
+					if (dirContents.data.items[i].type == "folder")
 						n.Nodes.Add(new TreeNode("...") { Tag = "dummy" });
 					else
 					{
-						n.Text = dirContents["data"]["items"][i]["path"];
+						n.Text = dirContents.data.items[i].path;
 						n.Text = n.Text.Substring(n.Text.LastIndexOf("/") + 1);
 						n.ImageIndex = 1;
 						n.SelectedImageIndex = 1;
